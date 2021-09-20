@@ -10,7 +10,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -22,22 +21,20 @@ public class InventoryUpdate {
 
     private final InventoryRepository inventoryRepository;
 
-//    @KafkaListener(topics = "inventory_create" , groupId = "inventory")
+    //    @KafkaListener(topics = "inventory_create" , groupId = "inventory")
     @KafkaListener(groupId = "inventory",
             topicPartitions = @TopicPartition(
                     topic = "inventory_create",
-                    partitionOffsets = { @PartitionOffset(
+                    partitionOffsets = {@PartitionOffset(
                             partition = "0",
-                            initialOffset = "0") }))
-    public void consume(ConsumerRecord<String, Message> message){
-        log.info("In App Config Listener");
-        try{
-           // ObjectMapper mapper = new ObjectMapper();
-                log.info("Inventory ProductId : " + message.value());
-            inventoryRepository.save( Inventory.builder().productId(message.value()+"").inventory("50")
+                            initialOffset = "0")}))
+    public void consume(ConsumerRecord<String, Message> message) {
+        try {
+            log.info("Inventory ProductId : " + message.value());
+            inventoryRepository.save(Inventory.builder().productId(message.value() + "").inventory("50")
                     .createdDate(LocalDateTime.now(ZoneOffset.UTC))
                     .updatedDate(LocalDateTime.now(ZoneOffset.UTC)).build());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error("Exception occured in parsing the message: " + ex);
         }
     }
