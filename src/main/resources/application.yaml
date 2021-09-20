@@ -1,0 +1,46 @@
+server:
+  port: 9002
+spring:
+  webflux:
+    base-path: /api/inventory/v1
+#  r2dbc:
+#    url: r2dbc:mysql://localhost:3306/inventory
+#    username: root
+#    password: root
+#    initialization-mode: always
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/inventory
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+  kafka:
+    transaction-timeout: 10000
+    request-timeout: 10000
+    bootstrap-servers: http://localhost:9092
+    consumer:
+      timeout:
+        ms: 5000
+    auto:
+      commit:
+        interval:
+          ms: 5000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,loggers,health,info,metrics
+  endpoint:
+    loggers:
+      enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
