@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Custom Serializer Implementation
- *
  */
 @SuppressWarnings("rawtypes")
 public class KafkaJsonSerializer implements Serializer {
@@ -27,7 +26,7 @@ public class KafkaJsonSerializer implements Serializer {
      */
     @Override
     public byte[] serialize(String s, Object o) {
-    	logger.debug("Inside serialize()::{} {}",s,o);
+        logger.debug("Inside serialize()::{} {}", s, o);
         byte[] retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
         try {

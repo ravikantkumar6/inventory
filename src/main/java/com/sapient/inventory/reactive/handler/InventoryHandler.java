@@ -1,6 +1,7 @@
 package com.sapient.inventory.reactive.handler;
 
-import com.sapient.inventory.dto.Inventory;
+import com.sapient.inventory.model.Inventory;
+import com.sapient.inventory.model.request.OrderRequest;
 import com.sapient.inventory.reactive.service.InventoryReactiveService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +21,22 @@ public class InventoryHandler {
     public Mono<ServerResponse> getInventory(ServerRequest request) {
         log.info("Get Inventory");
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                .body(inventoryReactiveService.getInventory(), Inventory.class);
+                .bodyValue(inventoryReactiveService.getInventory());
     }
 
-    public Mono<ServerResponse> saveInventory(ServerRequest request) {
+    public Mono<ServerResponse> saveInventory(ServerRequest serverRequest) {
         log.info("Save Inventory");
-        return request.bodyToMono(Inventory.class)
-                .doOnNext(inventory -> inventoryReactiveService.saveInventory(inventory))
-                .then(ServerResponse.ok().build());
-       }
+        return serverRequest
+                .bodyToMono(Inventory.class)
+                .flatMap(orderRequest -> Mono.fromCallable(() -> this.inventoryReactiveService.saveInventory(orderRequest)))
+                .flatMap(inventory -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(inventory));
+    }
+
+    public Mono<ServerResponse> updateInventory(ServerRequest serverRequest) {
+        log.info("Save Inventory");
+        return serverRequest
+                .bodyToMono(OrderRequest.class)
+                .flatMap(orderRequest -> Mono.fromCallable(() -> this.inventoryReactiveService.updateInventory(orderRequest, false)))
+                .flatMap(inventory -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(inventory));
+    }
 }

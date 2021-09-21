@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * Configuration class to create kafka topics
- *
  */
 @Slf4j
 public class KafkaTopicConfig {

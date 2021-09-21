@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Custom DeSerializer Implementation
- *
  */
 @SuppressWarnings("rawtypes")
 public class KafkaJsonDeserializer<T> implements Deserializer {
@@ -24,7 +23,7 @@ public class KafkaJsonDeserializer<T> implements Deserializer {
     public KafkaJsonDeserializer() {
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     public KafkaJsonDeserializer(Class type) {
         this.type = type;
     }

@@ -61,7 +61,7 @@ public class BaseKafkaProducerConfig {
         configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, requestTimeout);
         configMap.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 1000);
         configMap.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
-        configMap.put(ProducerConfig.ACKS_CONFIG,acknowledge);
+        configMap.put(ProducerConfig.ACKS_CONFIG, acknowledge);
         configMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaJsonSerializer.class);
         return configMap;
@@ -82,7 +82,7 @@ public class BaseKafkaProducerConfig {
      *
      * @return
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Bean
     @Lazy(true)
     public KafkaTemplate kafkaTemplate() {
